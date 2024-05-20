@@ -1,24 +1,29 @@
-import logo from './logo.svg';
+
 import './App.css';
+import LoginSignup from './pages/LoginSignup';
+import { BrowserRouter,Routes,Route, Navigate } from 'react-router-dom';
+import { useAuthContext } from './context/AuthContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Projects from './pages/Projects';
+import Project from './components/project/project';
+
+
+
 
 function App() {
+  const {authUser} = useAuthContext();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+     <div>
+    
+    <ToastContainer />
+      <Routes>
+            <Route path='/' element={authUser ? <Navigate to='/dashboard'/> : <LoginSignup/>} />
+            <Route path='/dashboard' element={authUser ? <Projects/> : <LoginSignup/>} />
+            <Route path="/projects/:projectId" element={<Project/>}/>
+      </Routes>  
+     </div>
+    
   );
 }
 
